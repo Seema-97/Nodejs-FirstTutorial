@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS client</title>
+  </head>
+
+  <body>
+    <h1>JS Client</h1>
+
+    <input type="text" placeholder="Enter your name" class="username">
+    <button class="submitBtn">Submit</button>
+
+    <script>
+     
+     const inputElem= document.querySelector('.username');
+     const submitBtn = document.querySelector('.submitBtn');
+
+
+     submitBtn.addEventListener('click' , () => {
+        let username = inputElem.value ;
+
+        fetch("http://localhost:8080/userData", {
+        "method": "post",
+        "Content-Type": "application/json",
+        body: JSON.stringify({
+          username,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+
+     })
+
+      fetch("http://localhost:8080/productData")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+
+      fetch("http://localhost:8080/userData")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+
+     
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS client</title>
+  </head>
+
+  <body>
+    <h1>JS Client</h1>
+
+    <input type="text" placeholder="Enter your name" class="username">
+    <input type="contact" placeholder="Enter your contact" class="userContact">
+    <button class="submitBtn">Submit</button>
+
+    <div class="display"></div>
+
+    <script>
+     
+     const nameInputElem= document.querySelector('.username');
+     const contactInputElem = document.querySelector('.userContact')
+     const submitBtn = document.querySelector('.submitBtn');
+     const displayElem = document.querySelector('.display')
+
+
+
+     submitBtn.addEventListener('click' , () => {
+        let username = nameInputElem.value ;
+        let userContact = contactInputElem.value ;
+        let errMsg =''
+
+        let div = document.createElement('div') ;
+        displayElem.append(div);
+
+        div.innerHTML = ` ${username} ${userContact} <button>Delete</button
+            >`
+
+        fetch("http://localhost:3050/form", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    // user: username // for error
+                    username,
+                    userContact
+                })
+            }).then(res => {
+                if (res.status === 500) {
+                    errMsg = res.statusText;
+                    throw Error();
+                } else {
+                    return res.json();
+                }
+
+            })
+                .then((msg) => {
+                    console.log(msg);
+                    alert("Submitted")
+                })
+                .catch(err => console.log(errMsg))
+        })
+
+       fetch("http://localhost:3050")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+      
+
+      fetch("http://localhost:3050/productData")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+
+     
+    </script>
+  </body>
+</html>
